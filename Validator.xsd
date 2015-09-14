@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="packJSStructure">
+        <xsd:complexType>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                <xsd:element ref="file"/>
+                <xsd:element ref="module"/>
+            </xsd:choice>
+        </xsd:complexType>
+        
+        <xsd:key name="idKeyUnic">
+            <xsd:selector xpath="file | module"/>
+            <xsd:field xpath="id"/>
+        </xsd:key>
+                                
+        <xsd:keyref name="idDepRef" refer="idKeyUnic">
+            <xsd:selector xpath="module/dependencies"/>
+            <xsd:field xpath="dependency"/>
+        </xsd:keyref>
+    </xsd:element>
+    
+    <xsd:element name="file">
+        <xsd:complexType>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                <xsd:element ref="id" minOccurs="1"/>
+                <xsd:element ref="basePath" minOccurs="0"/>
+                <xsd:element ref="outputPath" minOccurs="0"/>
+                <xsd:element ref="compressionLevel"  minOccurs="0"/>
+                <xsd:element ref="dependencies" minOccurs="0"/>
+                <xsd:element name="uncompressedSrcName" minOccurs="1" type="xsd:string"/>
+                <xsd:element name="compressedSrcName" minOccurs="0" type="xsd:string"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+		
+		
+		
+    <xsd:element name="module">
+        <xsd:complexType>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                <xsd:element ref="id"/>
+                <xsd:element ref="basePath" minOccurs="0"/>
+                <xsd:element ref="outputPath" minOccurs="0"/>
+                <xsd:element ref="compressionLevel" minOccurs="0"/>
+                <xsd:element ref="dependencies" minOccurs="0"/>
+                <xsd:element name="files" minOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="file" maxOccurs="unbounded" type="xsd:string"/>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>		
+    
+    
+    <xsd:element name="id" type="TypeId" />
+    <xsd:element name="basePath" type="TypePath" />
+    <xsd:element name="outputPath" type="xsd:string" />
+    <xsd:element name="compressionLevel" type="compressionLevelType"/>
+    
+    <xsd:element name="dependencies" >
+        <xsd:complexType>
+            <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                <xsd:element name="dependency"  maxOccurs="unbounded"  type="xsd:string" />
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    
+    
+    <xsd:simpleType name="TypeId">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="([A-Za-z0-9-])*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+ 
+    <xsd:simpleType name="TypePath">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="(([A-Za-z0-9!@#$%^*?|*+-.])*([/])*)*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="compressionLevelType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[wW][hH][iI][tT][eE][sS][pP][aA][cC][eE][_][oO][nN][lL][yY]"/>
+            <xsd:pattern value="[wW][hH][iI][tT][eE][sS][pP][aA][cC][eE]"/>
+            <xsd:pattern value="[sS][iI][mM][pP][lL][eE][_][oO][pP][tT][iI][mM][iI]Z[aA][tT][iI][oO][nN][sS]"/>
+            <xsd:pattern value="[sS][iI][mM][pP][lL][eE]"/>
+            <xsd:pattern value="[oO][pP][tT][iI][mM][iI]Z[aA][tT][iI][oO][nN][_][aA]DV[aA][nN][cC][eE]D"/>
+            <xsd:pattern value="[aA]DV[aA][nN][cC][eE]D[_][oO][pP][tT][iI][mM][iI]Z[aA][tT][iI][oO][nN][sS]"/>
+            <xsd:pattern value="[aA]DV[aA][nN][cC][eE]D"/>
+            <xsd:pattern value="[nN][oO][nN][eE]"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+
+ 
+</xsd:schema>
