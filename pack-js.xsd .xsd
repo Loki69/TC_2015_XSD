@@ -8,21 +8,19 @@
                 <xsd:element name="module" type="moduleType"/>
             </xsd:choice>
         </xsd:complexType>
-        <xsd:keyref name="idDepRef" refer="keyId">
-            <xsd:selector xpath="dependencies"/>
-            <xsd:field xpath="dependency"/>
-        </xsd:keyref>
         <xsd:key name="keyId">
             <xsd:selector xpath="file | module"/>
             <xsd:field xpath="id"/>
         </xsd:key>
-                                
-
+        <xsd:keyref name="idDepRef" refer="keyId">
+            <xsd:selector xpath="dependencies"/>
+            <xsd:field xpath="dependency"/>
+        </xsd:keyref>                              
     </xsd:element>
     
     <xsd:complexType name="fileType">
         <xsd:complexContent>
-            <xsd:extension base="baseType">
+            <xsd:extension base="coreType">
                 <xsd:sequence>
                     <xsd:element name="uncompressedSrcName" type="jsPathType" />
                     <xsd:element name="compressedSrcName" type="jsPathType" minOccurs="0" />
@@ -33,7 +31,7 @@
         
     <xsd:complexType name="moduleType">
         <xsd:complexContent>
-            <xsd:extension base="baseType">
+            <xsd:extension base="coreType">
                 <xsd:sequence>
                     <xsd:element ref="files"/>
                 </xsd:sequence>
@@ -43,13 +41,13 @@
     
 
     
-    <xsd:complexType name="baseType">
+    <xsd:complexType name="coreType">
         <xsd:sequence minOccurs="0" maxOccurs="1">
             <xsd:element name="id" type="idType" minOccurs="1" />
-            <xsd:element name="basePath" type="pathType" />
-            <xsd:element name="outputPath" type="xsd:string" />
-            <xsd:element name="compressionLevel" type="compressionLevelType"/>
-            <xsd:element ref="dependencies"/>
+            <xsd:element name="basePath" type="pathType" minOccurs="0" />
+            <xsd:element name="outputPath" type="xsd:string" minOccurs="0"/>
+            <xsd:element name="compressionLevel" type="compressionLevelType" minOccurs="0"/>
+            <xsd:element ref="dependencies" minOccurs="0"/>
         </xsd:sequence>
     </xsd:complexType>
     
@@ -82,7 +80,7 @@
     
     <xsd:simpleType name="idType">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="([A-Za-z0-9-])*"/>
+            <xsd:pattern value="([A-Za-z0-9-])+"/>
         </xsd:restriction>
     </xsd:simpleType>
  

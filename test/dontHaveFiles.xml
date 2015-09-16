@@ -7,7 +7,6 @@
 	</file>
 	<module>
 		<id>jquery-plugins</id>
-		<outputName>jquery-plugins.js</outputName>
 		<basePath>jquery/plugin</basePath>
 		<outputPath>jquery</outputPath>
 		<compressionLevel>none</compressionLevel>
